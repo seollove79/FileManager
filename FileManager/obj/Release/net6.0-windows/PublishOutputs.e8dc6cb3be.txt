@@ -1,0 +1,10 @@
+D:\devwork\FileManager\FileManager\bin\Release\net6.0-windows\publish\FileManager.exe
+D:\devwork\FileManager\FileManager\bin\Release\net6.0-windows\publish\FileManager.dll
+D:\devwork\FileManager\FileManager\bin\Release\net6.0-windows\publish\FileManager.deps.json
+D:\devwork\FileManager\FileManager\bin\Release\net6.0-windows\publish\FileManager.runtimeconfig.json
+D:\devwork\FileManager\FileManager\bin\Release\net6.0-windows\publish\FileManager.pdb
+D:\devwork\FileManager\FileManager\bin\Release\net6.0-windows\publish\Microsoft.WindowsAPICodePack.Core.dll
+D:\devwork\FileManager\FileManager\bin\Release\net6.0-windows\publish\Microsoft.WindowsAPICodePack.ExtendedLinguisticServices.dll
+D:\devwork\FileManager\FileManager\bin\Release\net6.0-windows\publish\Microsoft.WindowsAPICodePack.Sensors.dll
+D:\devwork\FileManager\FileManager\bin\Release\net6.0-windows\publish\Microsoft.WindowsAPICodePack.Shell.dll
+D:\devwork\FileManager\FileManager\bin\Release\net6.0-windows\publish\Microsoft.WindowsAPICodePack.ShellExtensions.dll

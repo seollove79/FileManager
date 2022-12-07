@@ -1,0 +1,40 @@
+﻿<Window x:Class="FileManager.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FileManager"
+        mc:Ignorable="d"
+        Title="기수사랑 나라사랑 v.0.0.0.2" Height="450" Width="600">
+    <Grid>
+        <Label Content="IP ADDRESS : " HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Padding="0,0,0,0"/>
+        <TextBox x:Name="textBoxIp" HorizontalAlignment="Left" Margin="124,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150"/>
+        <Label Content="Port :" HorizontalAlignment="Left" Margin="20,55,0,0" Padding="0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBoxPort" HorizontalAlignment="Left" Margin="124,55,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewTextInput="textBoxNumber_PreviewTextInput" Text="{Binding Text}"/>
+
+
+        <Label Content="수집시작일 :" HorizontalAlignment="Left" Margin="20,91,0,0" VerticalAlignment="Top" Padding="0"/>
+        <DatePicker x:Name="datePicker01" HorizontalAlignment="Left" Margin="123,87,0,0" VerticalAlignment="Top"/>
+        <Label Content="시작시간(24시) :" HorizontalAlignment="Left" Margin="20,126,0,0" Padding="0" VerticalAlignment="Top"/>
+        <Label Content="수집간격(시간) :" HorizontalAlignment="Left" Margin="20,162,0,0" Padding="0" VerticalAlignment="Top"/>
+        <TextBox x:Name="textBoxStartHour" HorizontalAlignment="Left" Margin="123,125,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewTextInput="textBoxNumber_PreviewTextInput" Text="{Binding Text}"/>
+        <TextBox x:Name="textBoxHourDiv" HorizontalAlignment="Left" Margin="123,162,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewTextInput="textBoxNumber_PreviewTextInput" Text="{Binding Text}"/>
+        <Label Content="일별 수집수량 :" HorizontalAlignment="Left" Margin="20,199,0,0" VerticalAlignment="Top" Padding="0"/>
+        <TextBox x:Name="textBoxDayCnt" HorizontalAlignment="Left" Margin="124,199,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" PreviewTextInput="textBoxNumber_PreviewTextInput" Text="{Binding Text}"/>
+        <Button Content="폴더선택" HorizontalAlignment="Left" Margin="20,235,0,0" VerticalAlignment="Top" Click="Button_Click"/>
+        <Label x:Name="lblFileCnt" Content="0" HorizontalAlignment="Left" Margin="98,232,0,0" VerticalAlignment="Top" Width="50"/>
+        <Label Content="개 파일 선택 됨" HorizontalAlignment="Left" Margin="160,232,0,0" VerticalAlignment="Top"/>
+        <Button x:Name="btnEditFilename" Content="파일명 일괄 변환" HorizontalAlignment="Left" Margin="20,305,0,0" VerticalAlignment="Top" Click="btnEditFilename_Click"/>
+        <Label Content="작업파일 단위 :" HorizontalAlignment="Left" Margin="20,274,0,0" VerticalAlignment="Top" Padding="0"/>
+        <TextBox x:Name="textBoxUnit" HorizontalAlignment="Left" Margin="123,274,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"  PreviewTextInput="textBoxNumber_PreviewTextInput" Text="{Binding Text}"/>
+        <TextBox
+  Name="tbMultiLine"
+  TextWrapping="Wrap"
+  AcceptsReturn="True"
+  VerticalScrollBarVisibility="Visible"
+             HorizontalAlignment="Left" Margin="300,55,0,79"
+            Width="265"
+            Height="300" />
+        <Label Content="DEBUG" HorizontalAlignment="Left" Margin="300,20,0,0" VerticalAlignment="Top"/>
+    </Grid>
+</Window>
