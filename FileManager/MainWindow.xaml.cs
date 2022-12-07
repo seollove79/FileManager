@@ -30,6 +30,7 @@ namespace FileManager
         int targetFileCnt = 0;
 
         bool debugMode = false;
+        bool moveOnly = false;
 
         public MainWindow()
         {
@@ -58,14 +59,17 @@ namespace FileManager
 
         private void btnEditFilename_Click(object sender, RoutedEventArgs e)
         {
-            //디버그용
-            /*datePicker01.Text = "2022-12-07";
-            textBoxStartHour.Text = "21";
-            textBoxHourDiv.Text = "1";
-            textBoxDayCnt.Text = "10";
-            textBoxUnit.Text = "100";
-            textBoxIp.Text = "100.100.100.100";
-            textBoxPort.Text = "60";*/
+            if (debugMode)
+            {
+                datePicker01.Text = "2022-12-07";
+                textBoxStartHour.Text = "21";
+                textBoxHourDiv.Text = "1";
+                textBoxDayCnt.Text = "10";
+                textBoxUnit.Text = "100";
+                textBoxIp.Text = "100.100.100.100";
+                textBoxPort.Text = "60";
+            }
+            
 
             string strStartDate = datePicker01.Text;
             string strStartHour = textBoxStartHour.Text;
@@ -74,7 +78,20 @@ namespace FileManager
             string strUnit = textBoxUnit.Text;
             string strIp = textBoxIp.Text;
             string strPort = textBoxPort.Text;
-
+            if(chkMoveOnly.IsChecked == true)
+            {
+                moveOnly = true;
+                datePicker01.Text = "2022-12-07";
+                textBoxStartHour.Text = "21";
+                textBoxHourDiv.Text = "1";
+                textBoxDayCnt.Text = "10";
+                textBoxIp.Text = "100.100.100.100";
+                textBoxPort.Text = "60";
+            }
+            else
+            {
+                moveOnly = false;
+            }
 
             Regex regex = new Regex(@"^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$");
             if (!regex.IsMatch(strIp))
@@ -137,6 +154,7 @@ namespace FileManager
                     return;
                 }
             }
+            
 
             if (targetFolderName == null || targetFolderName == "")
             {
@@ -166,12 +184,7 @@ namespace FileManager
 
             string[] dateArray = strStartDate.Split('-');
 
-            //DateTime startDate = DateTime.Parse(strStartDate);
-            DateTime startDate = new DateTime(Int32.Parse(dateArray[0]), Int32.Parse(dateArray[1]), Int32.Parse(dateArray[2]), Int32.Parse(strStartHour), 0, 0);
             DateTime checkDate = new DateTime(Int32.Parse(dateArray[0]), Int32.Parse(dateArray[1]), Int32.Parse(dateArray[2]), Int32.Parse(strStartHour), 0, 0);
-
-            Debug.WriteLine("startDate : " + startDate);
-            Debug.WriteLine("checkDate : " + checkDate);
 
             int intStartHour = Int32.Parse(strStartHour);
             int intHourDiv = Int32.Parse(strHourDiv);
@@ -209,26 +222,31 @@ namespace FileManager
                 tbMultiLine.Text = tbMultiLine.Text + newFileName + "\n";
 
                 Debug.WriteLine(File.Directory + "\\" + newFileName);
-                
-                if(!System.IO.Directory.Exists(di.FullName + "\\" + targetFolder1))
-                {
-                    System.IO.Directory.CreateDirectory(di.FullName + "\\" + targetFolder1);
-                }
 
-                if (!System.IO.Directory.Exists(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2))
+                if (moveOnly == false)
                 {
-                    System.IO.Directory.CreateDirectory(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2);
-                }
+
+                    if (!System.IO.Directory.Exists(di.FullName + "\\" + targetFolder1))
+                    {
+                        System.IO.Directory.CreateDirectory(di.FullName + "\\" + targetFolder1);
+                    }
+
+                    if (!System.IO.Directory.Exists(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2))
+                    {
+                        System.IO.Directory.CreateDirectory(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2);
+                    }
 
 
-                if (System.IO.File.Exists(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2 + "\\" + newFileName))
-                {
-                    tbMultiLine.Text += newFileName + "가(이) 현재 폴더에 존재 합니다.";
-                }
-                else
-                {
+                    if (System.IO.File.Exists(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2 + "\\" + newFileName))
+                    {
+                        tbMultiLine.Text += newFileName + "가(이) 현재 폴더에 존재 합니다.\n";
+                    }
                     File.MoveTo(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2 + "\\" + newFileName, true);
+                } else
+                {
+                    moveFolder(File);
                 }
+
 
 
                 checkDate = checkDate.AddHours(intHourDiv);
@@ -237,9 +255,18 @@ namespace FileManager
 
                 if (i >= intDayCnt)
                 {
+                    int addDay;
                     i = 0;
+                    if(checkDate.Hour > intStartHour)
+                    {
+                        addDay = 1;
+                    }
+                    else
+                    {
+                        addDay = 0;
+                    }
                     checkDate = new DateTime(checkDate.Year, checkDate.Month, checkDate.Day, intStartHour, 0, 0);
-                    checkDate.AddDays(1);
+                    checkDate = checkDate.AddDays(addDay);
                 }
             }
 
@@ -252,6 +279,30 @@ namespace FileManager
         {
             Regex regex = new Regex("[^0-9]+");
             e.Handled = regex.IsMatch(e.Text);
+        }
+
+        private void moveFolder(System.IO.FileInfo file)
+        {
+            string filename = file.Name;
+            string temp = filename.Split("-")[1];
+            temp = temp.Split(".")[0];
+            string folder1 = temp.Substring(0, 4) + "-" + temp.Substring(4, 4);
+            
+
+            string folder2 = temp = filename.Split("-")[0];
+
+            if (!System.IO.Directory.Exists(di.FullName + "\\" + folder1))
+            {
+                System.IO.Directory.CreateDirectory(di.FullName + "\\" + folder1);
+            }
+
+            if (!System.IO.Directory.Exists(di.FullName + "\\" + folder1 + "\\" + folder2))
+            {
+                System.IO.Directory.CreateDirectory(di.FullName + "\\" + folder1 + "\\" + folder2);
+            }
+
+
+            file.MoveTo(di.FullName + "\\" + folder1 + "\\" + folder2 + "\\" + file.Name, true);
         }
     }
 }
