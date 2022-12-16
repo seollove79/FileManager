@@ -1,22 +1,10 @@
 ﻿using Microsoft.WindowsAPICodePack.Dialogs;
-using Microsoft.WindowsAPICodePack.Dialogs.Controls;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace FileManager
 {
@@ -62,12 +50,12 @@ namespace FileManager
             if (debugMode)
             {
                 datePicker01.Text = "2022-12-07";
-                textBoxStartHour.Text = "21";
-                textBoxHourDiv.Text = "1";
-                textBoxDayCnt.Text = "10";
+                textBoxStartHour.Text = "5";
+                textBoxHourDiv.Text = "30";
+                textBoxDayCnt.Text = "16";
                 textBoxUnit.Text = "100";
-                textBoxIp.Text = "100.100.100.100";
-                textBoxPort.Text = "60";
+                textBoxIp.Text = "경남밀양";
+                textBoxPort.Text = "가지농장";
             }
             
 
@@ -82,11 +70,11 @@ namespace FileManager
             {
                 moveOnly = true;
                 datePicker01.Text = "2022-12-07";
-                textBoxStartHour.Text = "21";
+                textBoxStartHour.Text = "5";
                 textBoxHourDiv.Text = "1";
                 textBoxDayCnt.Text = "10";
-                textBoxIp.Text = "100.100.100.100";
-                textBoxPort.Text = "60";
+                textBoxIp.Text = "의미없음";
+                textBoxPort.Text = "의미없음";
             }
             else
             {
@@ -131,14 +119,6 @@ namespace FileManager
             {
                 MessageBox.Show("수집간격을 입력하세요.");
                 return;
-            }
-            else
-            {
-                if (!(Int32.Parse(strHourDiv) >= 1 && Int32.Parse(strHourDiv) <= 24))
-                {
-                    MessageBox.Show("수집간격은 1~24 사이의 숫자입니다.");
-                    return;
-                }
             }
 
             if (strDayCnt.Length == 0)
@@ -205,51 +185,46 @@ namespace FileManager
                 string strDate = checkDate.Date.ToString("yyyyMMdd");
                 string strHour = "";
 
-                if(checkDate.Hour < 10)
-                {
-                    strHour = "0" + checkDate.Hour.ToString() + "0000";
-                }
-                else
-                {
-                    strHour = checkDate.Hour.ToString() + "0000";
-                }
+                strHour = checkDate.ToString("HHmm") + "00";
 
                 string targetFolderFull = "";
-                string targetFolder1 = checkDate.ToString("yyyy") + "-" + checkDate.ToString("MMdd");
-                string targetFolder2 = strIp + "." + strPort;
+                string targetFolder1 = checkDate.ToString("MMdd");
+                string targetFolder2 = strIp + "_" + strPort;
 
-                String newFileName = strIp + "." + strPort + "-" + strDate + "." + strHour + ".png";
+                String newFileName = strIp + "_" + strPort + "-" + strDate + "." + strHour + ".png";
                 tbMultiLine.Text = tbMultiLine.Text + newFileName + "\n";
 
                 Debug.WriteLine(File.Directory + "\\" + newFileName);
 
-                if (moveOnly == false)
-                {
+                if(debugMode == false) { 
 
-                    if (!System.IO.Directory.Exists(di.FullName + "\\" + targetFolder1))
+                    if (moveOnly == false)
                     {
-                        System.IO.Directory.CreateDirectory(di.FullName + "\\" + targetFolder1);
-                    }
+                        if (!System.IO.Directory.Exists(di.FullName + "\\" + targetFolder1))
+                        {
+                            System.IO.Directory.CreateDirectory(di.FullName + "\\" + targetFolder1);
+                        }
 
-                    if (!System.IO.Directory.Exists(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2))
+                        if (!System.IO.Directory.Exists(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2))
+                        {
+                            System.IO.Directory.CreateDirectory(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2);
+                        }
+
+
+                        if (System.IO.File.Exists(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2 + "\\" + newFileName))
+                        {
+                            tbMultiLine.Text += newFileName + "가(이) 현재 폴더에 존재 합니다.\n";
+                        }
+                        File.MoveTo(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2 + "\\" + newFileName, true);
+                    } else
                     {
-                        System.IO.Directory.CreateDirectory(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2);
+                        moveFolder(File);
                     }
-
-
-                    if (System.IO.File.Exists(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2 + "\\" + newFileName))
-                    {
-                        tbMultiLine.Text += newFileName + "가(이) 현재 폴더에 존재 합니다.\n";
-                    }
-                    File.MoveTo(di.FullName + "\\" + targetFolder1 + "\\" + targetFolder2 + "\\" + newFileName, true);
-                } else
-                {
-                    moveFolder(File);
                 }
 
 
 
-                checkDate = checkDate.AddHours(intHourDiv);
+                checkDate = checkDate.AddMinutes(intHourDiv);
                 i++;
                 workFileCnt++;
 
@@ -286,10 +261,10 @@ namespace FileManager
             string filename = file.Name;
             string temp = filename.Split("-")[1];
             temp = temp.Split(".")[0];
-            string folder1 = temp.Substring(0, 4) + "-" + temp.Substring(4, 4);
+            string folder1 = temp.Substring(4, 4);
             
 
-            string folder2 = temp = filename.Split("-")[0];
+            string folder2 = filename.Split("-")[0];
 
             if (!System.IO.Directory.Exists(di.FullName + "\\" + folder1))
             {
