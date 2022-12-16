@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FileManager"
         mc:Ignorable="d"
-        Title="기수사랑 나라사랑 v.0.0.0.3" Height="450" Width="600">
+        Title="기수용 소프트웨어 v.0.0.0.1" Height="450" Width="600">
     <Grid>
         <Label Content="IP ADDRESS : " HorizontalAlignment="Left" Margin="20,20,0,0" VerticalAlignment="Top" Padding="0,0,0,0"/>
         <TextBox x:Name="textBoxIp" HorizontalAlignment="Left" Margin="124,20,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="150"/>
