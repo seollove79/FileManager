@@ -93,17 +93,17 @@ namespace FileManager
                 moveOnly = false;
             }
 
-            Regex regex = new Regex(@"^(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])\.(\d{1,2}|1\d\d|2[0-4]\d|25[0-5])$");
-            if (!regex.IsMatch(strIp))
+            strIp = strIp.Replace(" ", "");
+            if (strIp.Length == 0)
             {
-                MessageBox.Show("정상적인 IP 주소를 입력하세요.");
+                MessageBox.Show("지역명을 입력하세요.");
                 return;
             }
 
             strPort = strPort.Replace(" ", "");
             if (strPort.Length == 0)
             {
-                MessageBox.Show("포트를 입력하세요.");
+                MessageBox.Show("농장명을 입력하세요.");
                 return;
             }
 
